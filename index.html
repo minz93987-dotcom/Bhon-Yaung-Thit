@@ -1,84 +1,126 @@
+
+
+
 <!DOCTYPE html>
 <html lang="my">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bhon Yaung Thit Delivery</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f1f5f9;
- color:#172554;
+* {
+    box-sizing: border-box;
 }
-header{
- background:#123b72;
- color:white;
- padding:22px;
- text-align:center;
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
 }
-header h2{margin:0}
-.container{
- max-width:650px;
- margin:20px auto;
- padding:15px;
+
+header {
+    background: #123b72;
+    color: white;
+    text-align: center;
+    padding: 25px 10px;
 }
-.card{
- background:white;
- padding:20px;
- border-radius:14px;
- margin-bottom:18px;
- box-shadow:0 3px 12px #0001;
+
+header h2 {
+    margin: 5px;
 }
-h3{color:#123b72}
-input,textarea{
- width:100%;
- padding:13px;
- margin:8px 0 15px;
- border:1px solid #cbd5e1;
- border-radius:8px;
- font-size:15px;
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    padding: 15px;
 }
-button{
- background:#f59e0b;
- color:#172554;
- border:0;
- padding:13px;
- width:100%;
- border-radius:8px;
- font-size:16px;
- font-weight:bold;
- cursor:pointer;
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px #0001;
 }
-.secondary{
- background:#123b72;
- color:white;
- margin-top:10px;
+
+h3 {
+    color: #123b72;
 }
-.order{
- border-bottom:1px solid #ddd;
- padding:12px 0;
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
 }
-.small{font-size:13px;color:#64748b}
-#message{font-weight:bold}
+
+input, textarea {
+    width: 100%;
+    padding: 13px;
+    margin-top: 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+textarea {
+    min-height: 75px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 8px;
+    background: #f59e0b;
+    color: #172554;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.blue {
+    background: #123b72;
+    color: white;
+}
+
+.order {
+    border-bottom: 1px solid #ddd;
+    padding: 12px 0;
+    overflow-wrap: anywhere;
+}
+
+.message {
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h2>🚚 ဘုန်းရောင်သစ် Delivery</h2>
-<p>Fast • Safe • Reliable</p>
+    <h2>🚚 ဘုန်းရောင်သစ် Delivery</h2>
+    <p>FAST • SAFE • RELIABLE</p>
 </header>
 
 <div class="container">
 
+<!-- CUSTOMER ORDER -->
+
 <div class="card">
-<h3>📦 Customer Order Form</h3>
+
+<h3>📦 Delivery Order တင်ရန်</h3>
 
 <form id="orderForm">
 
@@ -86,7 +128,7 @@ button{
 <input name="sender_name" required>
 
 <label>ပေးပို့သူဖုန်း</label>
-<input name="sender_phone" required>
+<input name="sender_phone" type="tel" required>
 
 <label>ပစ္စည်းယူမည့်လိပ်စာ</label>
 <textarea name="pickup_address" required></textarea>
@@ -95,7 +137,7 @@ button{
 <input name="receiver_name" required>
 
 <label>လက်ခံသူဖုန်း</label>
-<input name="receiver_phone" required>
+<input name="receiver_phone" type="tel" required>
 
 <label>ပစ္စည်းပို့မည့်လိပ်စာ</label>
 <textarea name="delivery_address" required></textarea>
@@ -112,188 +154,239 @@ button{
 <label>အထူးမှာကြားချက်</label>
 <textarea name="special_instructions"></textarea>
 
-<button type="submit">Order တင်မည်</button>
+<button type="submit">
+Order တင်မည်
+</button>
 
-<p id="message"></p>
+<p id="orderMessage" class="message"></p>
+
 </form>
 </div>
 
+
+<!-- OWNER LOGIN -->
+
 <div class="card">
+
 <h3>🔐 Owner Login</h3>
 
 <form id="loginForm">
+
 <label>Email</label>
 <input name="email" type="email" required>
 
 <label>Password</label>
 <input name="password" type="password" required>
 
-<button type="submit" class="secondary">
-Owner Login
+<button class="blue" type="submit">
+Login ဝင်မည်
 </button>
+
 </form>
 
-<p id="loginMessage"></p>
+<p id="loginMessage" class="message"></p>
+
 </div>
+
+
+<!-- OWNER DASHBOARD -->
 
 <div class="card" id="dashboard" hidden>
+
 <h3>🏠 Owner Dashboard</h3>
+
 <p id="ownerName"></p>
-<h3>📦 Order စာရင်း</h3>
-<div id="orders"></div>
-<button id="refresh" class="secondary">Refresh</button>
-<button id="logout" class="secondary">Logout</button>
+
+<hr>
+
+<h3>📦 လက်ခံရရှိသော Order များ</h3>
+
+<div id="orders">
+Order စာရင်း မရှိသေးပါ။
+</div>
+
+<button class="blue" id="refresh">
+စာရင်းအသစ်ပြန်ယူရန်
+</button>
+
+<button id="logout">
+Logout
+</button>
+
 </div>
 
 </div>
+
+<footer>
+Bhon Yaung Thit Delivery © 2026
+</footer>
+
 
 <script>
 
-// Supabase Project Information
-const SUPABASE_URL = " https://uwemhzbqlelhpqkiupua.supabase.co  ";
-const SUPABASE_KEY = "sb_publishable_sXHV9xzf2ca55ZMr23xRRg_cVBNyoJ7";
+// SUPABASE CONNECTION
 
-const db = supabase.createClient(
- SUPABASE_URL,
- SUPABASE_KEY
+const SUPABASE_URL =
+"https://uwemhzbqlelhpqkiupua.supabase.co";
+
+const SUPABASE_KEY =
+"YOUR_PUBLISHABLE_KEY";
+
+const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
 );
 
-// Customer Order
+
+// CUSTOMER ORDER FORM
+
 document.getElementById("orderForm")
-.addEventListener("submit",async function(e){
+.addEventListener("submit", async function(e) {
 
- e.preventDefault();
+    e.preventDefault();
 
- const form = new FormData(this);
+    const form = new FormData(this);
 
- const order = {
-  sender_name:form.get("sender_name"),
-  sender_phone:form.get("sender_phone"),
-  pickup_address:form.get("pickup_address"),
-  receiver_name:form.get("receiver_name"),
-  receiver_phone:form.get("receiver_phone"),
-  delivery_address:form.get("delivery_address"),
-  item_type:form.get("item_type"),
-  item_value:Number(form.get("item_value")||0),
-  cod_amount:Number(form.get("cod_amount")||0),
-  special_instructions:form.get("special_instructions")
- };
+    const order = {
 
- const message=document.getElementById("message");
- message.textContent="Order ပို့နေပါသည်...";
+        sender_name: form.get("sender_name"),
+        sender_phone: form.get("sender_phone"),
+        pickup_address: form.get("pickup_address"),
 
- const {error}=await db
- .from("orders")
- .insert(order);
+        receiver_name: form.get("receiver_name"),
+        receiver_phone: form.get("receiver_phone"),
+        delivery_address: form.get("delivery_address"),
 
- if(error){
-  message.textContent="Order မအောင်မြင်ပါ။ ပြန်ကြိုးစားပါ။";
-  console.error(error);
- }else{
-  message.textContent="✅ Order လက်ခံရရှိပါပြီ။ ကျေးဇူးတင်ပါတယ်။";
-  this.reset();
- }
+        item_type: form.get("item_type"),
+
+        item_value: Number(form.get("item_value") || 0),
+
+        cod_amount: Number(form.get("cod_amount") || 0),
+
+        special_instructions:
+        form.get("special_instructions")
+
+    };
+
+    const msg = document.getElementById("orderMessage");
+
+    msg.textContent = "Order ပို့နေပါသည်...";
+
+    const { error } = await db
+        .from("orders")
+        .insert(order);
+
+    if(error) {
+
+        msg.textContent =
+        "Order မအောင်မြင်ပါ။ ပြန်လည်ကြိုးစားပါ။";
+
+        console.error(error);
+
+    } else {
+
+        msg.textContent =
+        "✅ Order လက်ခံရရှိပါပြီ။ ကျေးဇူးတင်ပါတယ်။";
+
+        this.reset();
+
+    }
+
 });
 
-// Owner Login
+
+// OWNER LOGIN
+
 document.getElementById("loginForm")
-.addEventListener("submit",async function(e){
+.addEventListener("submit", async function(e) {
 
- e.preventDefault();
+    e.preventDefault();
 
- const form=new FormData(this);
+    const form = new FormData(this);
 
- const {data,error}=await db.auth.signInWithPassword({
-  email:form.get("email"),
-  password:form.get("password")
- });
+    const msg = document.getElementById("loginMessage");
 
- const msg=document.getElementById("loginMessage");
+    msg.textContent = "Login ဝင်နေပါသည်...";
 
- if(error){
-  msg.textContent="Login မအောင်မြင်ပါ။";
-  return;
- }
+    const { data, error } = await db.auth
+        .signInWithPassword({
 
- const {data:profile,error:profileError}=await db
- .from("profiles")
- .select("full_name,role")
- .eq("id",data.user.id)
- .single();
+            email: form.get("email"),
+            password: form.get("password")
 
- if(profileError || profile.role!=="owner"){
-  await db.auth.signOut();
-  msg.textContent="Owner Account သာ ဝင်ခွင့်ရှိပါသည်။";
-  return;
- }
+        });
 
- document.getElementById("dashboard").hidden=false;
- document.getElementById("ownerName").textContent=
- "မင်္ဂလာပါ "+profile.full_name;
+    if(error) {
 
- await loadOrders();
+        msg.textContent = "Login မအောင်မြင်ပါ။";
+
+        return;
+
+    }
+
+    const { data: profile, error: profileError } =
+        await db
+        .from("profiles")
+        .select("full_name, role")
+        .eq("id", data.user.id)
+        .single();
+
+    if(profileError || !profile || profile.role !== "owner") {
+
+        await db.auth.signOut();
+
+        msg.textContent =
+        "Owner Account သာ ဝင်ခွင့်ရှိပါသည်။";
+
+        return;
+
+    }
+
+    document.getElementById("dashboard").hidden = false;
+
+    document.getElementById("ownerName").textContent =
+        "မင်္ဂလာပါ " + profile.full_name;
+
+    msg.textContent = "Login အောင်မြင်ပါသည်။";
+
+    await loadOrders();
+
 });
 
-// Load Orders
-async function loadOrders(){
 
- const box=document.getElementById("orders");
- box.textContent="စာရင်းဖတ်နေပါသည်...";
+// OWNER ORDER LIST
 
- const {data,error}=await db
- .from("orders")
- .select("*")
- .order("created_at",{ascending:false})
- .limit(100);
+async function loadOrders() {
 
- if(error){
-  box.textContent="စာရင်းဖတ်မရပါ။";
-  return;
- }
+    const box = document.getElementById("orders");
 
- if(!data.length){
-  box.textContent="Order မရှိသေးပါ။";
-  return;
- }
+    box.textContent = "စာရင်းယူနေပါသည်...";
 
- box.innerHTML="";
+    const { data, error } = await db
+        .from("orders")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(100);
 
- data.forEach(o=>{
+    if(error) {
 
-  const item=document.createElement("div");
-  item.className="order";
+        box.textContent = "Order စာရင်း ဖတ်မရပါ။";
 
-  const title=document.createElement("b");
-  title.textContent=o.order_number;
+        console.error(error);
 
-  const detail=document.createElement("p");
-  detail.textContent=
-   "ပေးပို့သူ: "+o.sender_name+
-   " | လက်ခံသူ: "+o.receiver_name;
+        return;
 
-  const address=document.createElement("p");
-  address.textContent="လိပ်စာ: "+o.delivery_address;
+    }
 
-  const cod=document.createElement("p");
-  cod.textContent="COD: "+Number(o.cod_amount).toLocaleString()+" ကျပ်";
+    if(!data.length) {
 
-  const status=document.createElement("p");
-  status.textContent="အခြေအနေ: "+o.status;
+        box.textContent = "Order မရှိသေးပါ။";
 
-  item.append(title,detail,address,cod,status);
-  box.appendChild(item);
- });
-}
+        return;
 
-document.getElementById("refresh")
-.addEventListener("click",loadOrders);
+    }
 
-document.getElementById("logout")
-.addEventListener("click",async()=>{
- await db.auth.signOut();
- location.reload();
-});
+    box.innerHTML = "";
 
-</script>
-</body>
-</html>
+    data.forEach(order => {
+<!-- BYT DELIVERY VERSION 1 -->
